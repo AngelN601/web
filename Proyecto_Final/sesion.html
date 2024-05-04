@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+    <title>Iniciar Sesion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Josefin+Sans:ital,wght@1,600&family=Prompt:wght@600&family=Signika+Negative:wght@600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
+</head>
+
+
+
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="./index.html">
+                    <img src="./assets/img/logo_doc.png" width="48" height="48"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                         <a class="nav-link text-white" href="./agenda.html">AGENDA</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                         <a class="nav-link text-white" href="./pacientes.html">PACIENTES</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                         <a class="nav-link text-white" href="./contacto.html">CONTACTO</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                         <a class="nav-link text-white" id="sesion" href="./sesion.html">Inicio de Sesion</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+         </nav>
+    </div>
+
+
+
+
+    <div id="contenedor">
+        <div class="row">
+            <div class="col">
+                <div id="login-form" style="display: block;">
+                    <h2>Inicio de Sesion</h2>
+                    <form id="loginForm">
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" id="usuario" required>
+                        <br>
+                        <label for="contrasena">Contraseña:</label>
+                        <input type="password" id="contrasena" required>
+                        <br>
+                        <button type="button" onclick="login()">Iniciar Sesión</button>
+                    </form>
+                    <p>¿No tienes una cuenta? <a href="javascript:void(0);" onclick="mostrarRegistro()">Regístrate</a></p>
+                </div>
+            
+                <div id="registro-form" style="display: none;">
+                    <h2>Registro</h2>
+                    <form id="registroForm">
+                        <label for="nuevoUsuario">Nuevo Usuario:</label>
+                        <input type="text" id="nuevoUsuario" required>
+                        <br>
+                        <label for="nuevaContrasena">Nueva Contraseña:</label>
+                        <input type="password" id="nuevaContrasena" required>
+                        <br>
+                        <button type="button" onclick="registrarUsuario()">Registrarse</button>
+                    </form>
+                    <p>¿Ya tienes una cuenta? <a href="javascript:void(0);" onclick="mostrarLogin()">Iniciar Sesión</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <footer class="p-3 pb-1 mb-2 bg-danger text-white" id="footer">
+        <div class="container-fluid">
+            <div class="row" p-5 pb-2>
+                <div class="col">
+                    <ul class="lista" id="centrar">
+                        <li>Proyecto Final Programacion Web II</li>
+                        <li>Grupo 1712 Semetre 2024-1</li>
+                        <li>Derechos Reservados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+
+        function mostrarRegistro() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('registro-form').style.display = 'block';
+        }
+
+        function login() {
+            var usuario = document.getElementById('usuario').value;
+            var contrasena = document.getElementById('contrasena').value;
+
+            var usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+            var usuarioEncontrado = usuariosRegistrados.find(function (user) {
+                return user.usuario === usuario && user.contrasena === contrasena;
+            });
+
+            if (usuarioEncontrado) {
+                alert("Inicio de sesión exitoso.");
+                sessionStorage.setItem('nombreUsuario', usuario);
+                document.getElementById('sesion').innerText = "¡Hola, " + usuario + "!";
+            } else {
+                alert("Credenciales incorrectas. Inténtelo de nuevo.");
+            }
+        }
+        window.onload = function () {
+            var nombreUsuario = sessionStorage.getItem('nombreUsuario');
+
+            if (nombreUsuario) {
+                document.getElementById('sesion').innerText = "¡Hola, " + nombreUsuario + "!";
+            }
+        };
+
+        function registrarUsuario() {
+            var nuevoUsuario = document.getElementById('nuevoUsuario').value;
+            var nuevaContrasena = document.getElementById('nuevaContrasena').value;
+
+
+            var usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
+            usuariosRegistrados.push({ usuario: nuevoUsuario, contrasena: nuevaContrasena });
+
+            localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
+
+            alert("Registro exitoso. Ahora puedes iniciar sesión.");
+            
+        }
+    </script>
+
+</body>
+</html>
